@@ -55,11 +55,11 @@ If you are creating a template manually:
 
 ## References
 Official Web Clipper documentation:
+- https://help.obsidian.md/web-clipper (overview and setup)
 - https://help.obsidian.md/web-clipper/capture
 - https://help.obsidian.md/web-clipper/templates
 - https://help.obsidian.md/web-clipper/variables
 - https://help.obsidian.md/web-clipper/filters
-- https://help.obsidian.md/web-clipper (overview and setup)
 - https://help.obsidian.md/web-clipper/highlight
 - https://help.obsidian.md/web-clipper/interpreter
 - https://help.obsidian.md/web-clipper/troubleshoot
