@@ -35,7 +35,8 @@ Official Obsidian documentation you may need:
   processing.
 
 ## 3. Build the Template
-- Base new work on the examples in `substack-template.md` and `x-article-template.md`.
+- Base new work on the examples in `templates/substack-template.md` and
+  `templates/x-article-template.md`.
 - Use the standard heading layout:
   1. `## Note Name`
   2. `## Template Triggers`
@@ -64,7 +65,7 @@ Official Obsidian documentation you may need:
 
 ## 6. Deliverables
 Provide the user with:
-- The completed template file (usually named `<site>-template.md`).
+- The completed template file (usually named `templates/<site>-template.md`).
 - A short summary of what the template captures, along with any prerequisites the user must
   satisfy (like ensuring certain DOM elements are present).
 - Optional sanity-check instructions the user can follow to verify the template on their

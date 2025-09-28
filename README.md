@@ -5,8 +5,7 @@ to capture rich web content into Obsidian with consistent note naming, triggers,
 formatting.
 
 ## Repository Layout
-- `substack-template.md` – Example template for Substack posts.
-- `x-article-template.md` – Example template for X (Twitter) Articles.
+- `templates/` – Site-specific template files (`<site>-template.md`).
 - `AGENTS.md` – Playbook followed by AI agents when assisting with new templates.
 
 ## Prerequisites
@@ -17,7 +16,7 @@ formatting.
    below).
 
 ## Using the Provided Templates
-1. Open the template file you want (`substack-template.md` or `x-article-template.md`).
+1. Open the template file you want inside `templates/`.
 2. Copy the contents into a new Web Clipper template inside Obsidian (Settings → Web
    Clipper → Templates → New Template).
 3. Adjust the trigger pattern if your target URLs differ.
@@ -33,12 +32,12 @@ If you are working with an AI agent (like the one that maintains this repository
 2. Specify the trigger URL pattern you want the template to match.
 3. Mention any custom formatting preferences beyond the default "preserve all readable text
    and images" behavior.
-4. The agent will follow `AGENTS.md` to craft a new `<site>-template.md`. Review the result
-   before adding it to your Obsidian templates.
+4. The agent will follow `AGENTS.md` to craft a new `templates/<site>-template.md`. Review
+   the result before adding it to your Obsidian templates.
 
 If you are creating a template manually:
 1. Start by cloning or downloading this repository.
-2. Duplicate one of the existing template files and rename it to match the target site.
+2. Duplicate an existing file inside `templates/` and rename it to match the target site.
 3. Replace the sections under `## Note Name`, `## Template Triggers`, and `## Note content`
    with selectors drawn from your page's HTML.
 4. Keep the note name in the `author - date - title` format whenever possible.
