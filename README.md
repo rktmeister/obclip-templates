@@ -5,10 +5,15 @@ to capture rich web content into Obsidian with consistent note naming, triggers,
 formatting.
 
 ## Repository Layout
+
 - `templates/` – Site-specific template files (`<site>-template.md`).
+- `docs/` – Deep-dive notes about tricky selectors, filters, or site behaviors discovered while tuning templates.
+- `conversations/` – Historical debugging transcripts that capture why template decisions were made.
+- `temp/` – Saved HTML fixtures or Markdown captures used for local testing; drop new samples here when requesting updates.
 - `AGENTS.md` – Playbook followed by AI agents when assisting with new templates.
 
 ## Prerequisites
+
 1. Obsidian Desktop or Mobile with the Web Clipper enabled.
 2. Obsidian account signed in to sync the clipper (required by the official extension).
 3. Obsidian Web Clipper browser extension installed and connected to your vault.
@@ -16,15 +21,19 @@ formatting.
    below).
 
 ## Using the Provided Templates
+
 1. Open the template file you want inside `templates/`.
 2. Copy the contents into a new Web Clipper template inside Obsidian (Settings → Web
    Clipper → Templates → New Template).
 3. Adjust the trigger pattern if your target URLs differ.
 4. Test by clipping a representative page and confirm the resulting note uses the
    `author - date - title` name format and preserves headings, text, and images.
+5. Check `docs/` for any site-specific gotchas or follow-up steps before rolling a template into daily use.
 
 ## Requesting or Building New Templates
+
 If you are working with an AI agent (like the one that maintains this repository):
+
 1. Provide the agent with the target URL(s) and, ideally, the relevant HTML snippet or page
    structure so selectors can be derived accurately. For best results, save the HTML into a
    file within this repository (e.g., `temp/page.html`) rather than pasting large snippets
@@ -36,6 +45,7 @@ If you are working with an AI agent (like the one that maintains this repository
    the result before adding it to your Obsidian templates.
 
 If you are creating a template manually:
+
 1. Start by cloning or downloading this repository.
 2. Duplicate an existing file inside `templates/` and rename it to match the target site.
 3. Replace the sections under `## Note Name`, `## Template Triggers`, and `## Note content`
@@ -44,6 +54,7 @@ If you are creating a template manually:
 5. Validate the template by clipping multiple sample URLs.
 
 ## Tips for Accurate Selectors
+
 - Inspect the live page using your browser's developer tools to gather stable selectors.
 - Prefer semantic attributes (e.g., `data-*`, `itemprop`, `aria-*`) over auto-generated class
   names.
@@ -53,7 +64,9 @@ If you are creating a template manually:
   exist.
 
 ## References
+
 Official Web Clipper documentation:
+
 - https://help.obsidian.md/web-clipper (overview and setup)
 - https://help.obsidian.md/web-clipper/capture
 - https://help.obsidian.md/web-clipper/templates
@@ -64,7 +77,9 @@ Official Web Clipper documentation:
 - https://help.obsidian.md/web-clipper/troubleshoot
 
 ## Contributing
+
 Contributions are welcome. When submitting a new template:
+
 - Follow the structure demonstrated in the existing examples.
 - Include testing notes or caveats in the template file.
 - Keep selectors resilient and explain any fallbacks.
