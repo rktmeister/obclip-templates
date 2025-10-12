@@ -20,9 +20,10 @@ These are the gotchas we uncovered while tuning `templates/x-article-template.md
 - Tweet media (images) sits immediately after the tweet text in the HTML. We wrap the remaining HTML in `<div class="tweet-media">…</div>` **inside** the blockquote before the Markdown conversion so the image renders beneath the quote.
 - X wraps images in anchor tags pointing at `/.../photo/1`. After wrapping the tweet, strip those anchors (both relative and absolute) so the Markdown engine doesn’t emit extra `[ … ]( … )` link wrappers around the `![]()` image.
 - Engagement links (`…/status/<id>/analytics`, `/likes`, etc.) and “Show more” buttons need to be removed; otherwise they leak into the Markdown output.
-- Quote tweets embedded inside another tweet render as a `div` with a `Quote` label. Convert that `div` into its own `.tweet-embed.quote` blockquote (using the inner `data-testid="User-Name"`, handle text, `<time>`, and `data-testid="tweetText"`) so the nested tweet shows up cleanly and without avatar images.  
-  - The HTML for the nested quote is missing a direct status link, so you need to reuse the parent tweet’s handle/time instead of the usual `<a href="/handle/status/...">` selector.  
+- Quote tweets embedded inside another tweet render as a `div` with a `Quote` label. The template now rewrites that block into a nested `.tweet-embed quote` blockquote using the embedded author name, handle, captured `<time>` text, and `data-testid="tweetText"` contents so the quote displays with the correct indentation and without avatar images. We intentionally drop the literal “Quote” string before Markdown so the nested blockquote opens directly with the quoted tweet metadata.  
+  - X still omits a direct status link for these quotes, so the template links to the author profile and preserves the rendered time text instead of a tweet permalink.  
   - Flatten the avatar container (`div[data-testid="Tweet-User-Avatar"]`) inside the quote block before Markdown so it doesn’t surface as an extra image.
+- Mentions (`@handle`) sometimes sit inside their own wrapper `<div class="... r-xoduu5 ...">`. We strip that wrapper so the link stays inline and the Markdown renderer doesn’t force the handle onto its own line.
 
 ## Testing tips
 
