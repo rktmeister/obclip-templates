@@ -15,15 +15,16 @@ These are the gotchas we uncovered while tuning `templates/x-article-template.md
 
 ## Formatting decisions
 
-- Embedded tweets are rewritten into Markdown blockquotes with the structure  
+- Embedded tweets are rewritten into Markdown blockquotes with the structure
   `> [Name (@handle)](profile) - [time text](tweet link)` followed by the tweet body.
 - Tweet media (images) sits immediately after the tweet text in the HTML. We wrap the remaining HTML in `<div class="tweet-media">…</div>` **inside** the blockquote before the Markdown conversion so the image renders beneath the quote.
 - X wraps images in anchor tags pointing at `/.../photo/1`. After wrapping the tweet, strip those anchors (both relative and absolute) so the Markdown engine doesn’t emit extra `[ … ]( … )` link wrappers around the `![]()` image.
 - Engagement links (`…/status/<id>/analytics`, `/likes`, etc.) and “Show more” buttons need to be removed; otherwise they leak into the Markdown output.
-- Quote tweets embedded inside another tweet render as a `div` with a `Quote` label. The template now rewrites that block into a nested `.tweet-embed quote` blockquote using the embedded author name, handle, captured `<time>` text, and `data-testid="tweetText"` contents so the quote displays with the correct indentation and without avatar images. We intentionally drop the literal “Quote” string before Markdown so the nested blockquote opens directly with the quoted tweet metadata.  
-  - X still omits a direct status link for these quotes, so the template links to the author profile and preserves the rendered time text instead of a tweet permalink.  
-  - Flatten the avatar container (`div[data-testid="Tweet-User-Avatar"]`) inside the quote block before Markdown so it doesn’t surface as an extra image.
+- Quote tweets embedded inside another tweet render as a `div` with a `Quote` label. The template now rewrites that block into a nested `.tweet-embed quote` blockquote using the embedded author name, handle, captured `<time>` text, and `data-testid="tweetText"` contents so the quote displays with the correct indentation and without avatar images. We intentionally drop the literal “Quote” string before Markdown so the nested blockquote opens directly with the quoted tweet metadata.
+    - X still omits a direct status link for these quotes, so the template links to the author profile and preserves the rendered time text instead of a tweet permalink.
+    - Flatten the avatar container (`div[data-testid="Tweet-User-Avatar"]`) inside the quote block before Markdown so it doesn’t surface as an extra image.
 - Mentions (`@handle`) sometimes sit inside their own wrapper `<div class="... r-xoduu5 ...">`. We strip that wrapper so the link stays inline and the Markdown renderer doesn’t force the handle onto its own line.
+- After the `markdown` filter runs, run a targeted cleanup that re-adds `>` prefixes to any image lines that immediately follow a tweet blockquote. X occasionally inserts extra wrapper `<div>`s (for mentions or multi-image carousels) which cause the Markdown conversion to drop the blockquote marker; the guard runs multiple passes so back-to-back images stay inside the quoted block.
 
 ## Testing tips
 
@@ -34,7 +35,7 @@ These are the gotchas we uncovered while tuning `templates/x-article-template.md
 
 1. Confirm X hasn’t changed the embedded tweet wrapper (`tabindex="0"`). If it has, update the detection regex first.
 2. Re-run the HTML fixture through the regex replacements and verify:
-   - Embedded tweets render as blockquotes.
-   - Images remain inside the blockquote without link wrappers.
-   - Non-tweet article paragraphs remain untouched.
+    - Embedded tweets render as blockquotes.
+    - Images remain inside the blockquote without link wrappers.
+    - Non-tweet article paragraphs remain untouched.
 3. Only then edit the template; the chained `replace` calls are order-sensitive, so keep the media unwrapping replacements ahead of the Markdown conversion.
