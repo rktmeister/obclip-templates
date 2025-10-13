@@ -60,6 +60,9 @@ Official Obsidian documentation you may need:
 - Double-check the note name format, trigger pattern, and overall Markdown structure.
 - Ensure the content block preserves headings, paragraphs, lists, quotes, and images unless
   the user explicitly wants otherwise.
+- For X articles, confirm images attached to quoted tweets keep their `>` prefix in the
+  Markdown output; if they fall out of the blockquote, reuse the guard pattern from
+  `templates/x-article-template.md`.
 - Cross-check the final template with the documentation when you rely on specialized
   variables or filters.
 
