@@ -1,3 +1,10 @@
+---
+summary: Gotchas and fixtures for maintaining templates/x-article-template.md
+read_when:
+  - Updating the X article template
+  - Debugging broken quotes/links/images in X article captures
+---
+
 # X Article Template Notes
 
 These are the gotchas we uncovered while tuning `templates/x-article-template.md` so future updates don’t have to rediscover them.
@@ -5,6 +12,7 @@ These are the gotchas we uncovered while tuning `templates/x-article-template.md
 ## DOM structure highlights
 
 - Longform bodies live under `div[data-testid="longformRichTextComponent"]`. All article paragraphs, tweets, and media blocks are rendered as Draft.js blocks inside this container.
+- Some X articles include multiple `div[data-testid="longformRichTextComponent"]` nodes (e.g., “Sources” blocks at the end). When that happens, `selectorHtml:` returns an array, so you must `|join:""` (or `|first`) before running `remove_html`, `replace`, and `markdown` filters; otherwise you’ll get JSON artifacts like `\["` / `\"` and broken image/link URLs.
 - The “hero” tweet for the article uses `article[data-testid="tweet"][tabindex="-1"]`. Embedded tweets inside the story use the same `data-testid` but have `tabindex="0"` and are wrapped in `div[data-testid="simpleTweet"]`.
 - Tweet text for embeds is always under `div[data-testid="tweetText"]`; any quoted tweet laid out inside the same block nests another `article[data-testid="tweet"][tabindex="0"]`.
 
@@ -28,7 +36,7 @@ These are the gotchas we uncovered while tuning `templates/x-article-template.md
 
 ## Testing tips
 
-- Use the saved fixture `temp/twitter-article-3.html` to smoke-test replacements. Running a small BeautifulSoup script to apply the same regex replacements from the template helps catch formatting regressions (e.g., leftover brackets around images).
+- Use the saved fixtures `temp/twitter-article-3.html` (single body component) and `temp/twitter-article-5.html` (multiple `longformRichTextComponent` blocks / sources) to smoke-test replacements. Running a small BeautifulSoup script to apply the same regex replacements from the template helps catch formatting regressions (e.g., leftover brackets around images).
 - When copying new selectors or filters, double check that the `replace` expressions are escaped for the template engine (e.g., backslashes in `\d` have to be doubled).
 
 ## Future changes checklist
