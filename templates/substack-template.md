@@ -7,7 +7,7 @@
 ## Template Triggers
 
 ```regex
-/^https:\/\/(\w+)\.substack\.com\/.*$/
+/^https:\/\/((\w+)\.substack\.com|(www\.)?citriniresearch\.com)\/.*$/
 ```
 
 ## Note content
